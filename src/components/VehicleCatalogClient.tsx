@@ -23,17 +23,19 @@ interface PaginatedResponse {
 export default function VehicleCatalogClient() {
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState<SortField>('price');
   const [sortOrder, setSortOrder] = useState<SortOrder>('ASC');
   const itemsPerPage = 10;
 
   const { data, isLoading, error } = useQuery<PaginatedResponse>({
-    queryKey: ['vehicles', selectedManufacturer, selectedType, currentPage, sortField, sortOrder],
+    queryKey: ['vehicles', selectedManufacturer, selectedType, selectedYear, currentPage, sortField, sortOrder],
     queryFn: async () => {
       console.log('Fetching vehicles with filters:', { 
         selectedManufacturer, 
-        selectedType, 
+        selectedType,
+        selectedYear,
         currentPage,
         sortField,
         sortOrder 
@@ -41,6 +43,7 @@ export default function VehicleCatalogClient() {
       const result = await getVehicles({
         manufacturer: selectedManufacturer,
         type: selectedType,
+        year: selectedYear,
         page: currentPage,
         limit: itemsPerPage,
         sort: {
@@ -95,12 +98,17 @@ export default function VehicleCatalogClient() {
         types={types}
         selectedManufacturer={selectedManufacturer}
         selectedType={selectedType}
+        selectedYear={selectedYear}
         onManufacturerChange={(value) => {
           setSelectedManufacturer(value);
           setCurrentPage(1);
         }}
         onTypeChange={(value) => {
           setSelectedType(value);
+          setCurrentPage(1);
+        }}
+        onYearChange={(value) => {
+          setSelectedYear(value);
           setCurrentPage(1);
         }}
       />

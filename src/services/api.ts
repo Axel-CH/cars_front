@@ -11,6 +11,7 @@ const api = axios.create({
 interface VehicleFilters {
   manufacturer?: string | null;
   type?: string | null;
+  year?: number | null;
   page: number;
   limit: number;
   sort?: {
@@ -24,6 +25,7 @@ export const getVehicles = async (filters: VehicleFilters) => {
     const params = new URLSearchParams();
     if (filters.manufacturer) params.append('manufacturer', filters.manufacturer);
     if (filters.type) params.append('type', filters.type);
+    if (filters.year) params.append('year', filters.year.toString());
     params.append('page', filters.page.toString());
     params.append('limit', filters.limit.toString());
     
@@ -64,4 +66,4 @@ export async function getVehicleTypes(): Promise<string[]> {
     console.error('Error fetching vehicle types:', error);
     return [];
   }
-} 
+}
