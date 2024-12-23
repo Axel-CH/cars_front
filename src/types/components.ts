@@ -10,5 +10,5 @@ export interface FilterBarProps {
 }
 
 export interface VehicleListProps {
-  initialVehicles: Vehicle[];
+  vehicles: Vehicle[];
 } 

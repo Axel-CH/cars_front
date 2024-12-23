@@ -13,19 +13,37 @@ interface VehicleFilters {
   type?: string | null;
   page: number;
   limit: number;
+  sort?: {
+    field: 'price' | 'year';
+    order: 'ASC' | 'DESC';
+  };
 }
 
 export const getVehicles = async (filters: VehicleFilters) => {
-  const params = new URLSearchParams();
-  if (filters.manufacturer) params.append('manufacturer', filters.manufacturer);
-  if (filters.type) params.append('type', filters.type);
-  params.append('page', filters.page.toString());
-  params.append('limit', filters.limit.toString());
+  try {
+    const params = new URLSearchParams();
+    if (filters.manufacturer) params.append('manufacturer', filters.manufacturer);
+    if (filters.type) params.append('type', filters.type);
+    params.append('page', filters.page.toString());
+    params.append('limit', filters.limit.toString());
+    
+    if (filters.sort) {
+      params.append('sortBy', filters.sort.field);
+      params.append('sortOrder', filters.sort.order);
+    }
 
-  const response = await fetch(`/api/vehicules?${params.toString()}`);
+    const response = await fetch(`/api/vehicules?${params.toString()}`);
 
-  if (!response.ok) throw new Error('Failed to fetch vehicles');
-  return response.json();
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || 'Failed to fetch vehicles');
+    }
+    
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching vehicles:', error);
+    throw error;
+  }
 };
 
 export async function getManufacturers(): Promise<string[]> {
