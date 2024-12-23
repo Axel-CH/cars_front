@@ -67,3 +67,13 @@ export async function getVehicleTypes(): Promise<string[]> {
     return [];
   }
 }
+
+export async function getVehicleById(id: string): Promise<Vehicle> {
+  try {
+    const response = await api.get(`/vehicules/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching vehicle details:', error);
+    throw error;
+  }
+}

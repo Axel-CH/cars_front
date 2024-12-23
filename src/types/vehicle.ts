@@ -2,15 +2,11 @@ export interface Vehicle {
   id: string;
   manufacturer: string;
   model: string;
-  year: number;
   type: string;
+  year: number;
   price: number;
-  fuelType: string;
-  transmission: string;
-  mileage?: number;
-  features: string[];
-  images: string[];
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
+  mileage: number;
+  description?: string;
+  imageUrl?: string;
+  features?: string[];
 } 
