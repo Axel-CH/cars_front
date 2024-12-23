@@ -8,15 +8,25 @@ const api = axios.create({
   }
 });
 
-export async function getVehicles(): Promise<Vehicle[]> {
-  try {
-    const response = await api.get('/vehicules');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching vehicles:', error);
-    return [];
-  }
+interface VehicleFilters {
+  manufacturer?: string | null;
+  type?: string | null;
+  page: number;
+  limit: number;
 }
+
+export const getVehicles = async (filters: VehicleFilters) => {
+  const params = new URLSearchParams();
+  if (filters.manufacturer) params.append('manufacturer', filters.manufacturer);
+  if (filters.type) params.append('type', filters.type);
+  params.append('page', filters.page.toString());
+  params.append('limit', filters.limit.toString());
+
+  const response = await fetch(`/api/vehicules?${params.toString()}`);
+
+  if (!response.ok) throw new Error('Failed to fetch vehicles');
+  return response.json();
+};
 
 export async function getManufacturers(): Promise<string[]> {
   try {
