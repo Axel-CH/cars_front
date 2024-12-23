@@ -1,30 +1,11 @@
-export type UUID = string;
-
-export enum VehicleType {
-  SUV = 'SUV',
-  SEDAN = 'SEDAN',
-  TRUCK = 'TRUCK',
-  SPORTS = 'SPORTS',
-  LUXURY = 'LUXURY',
-  ELECTRIC = 'ELECTRIC'
-}
-
-export enum FuelType {
-  GASOLINE = 'GASOLINE',
-  DIESEL = 'DIESEL',
-  ELECTRIC = 'ELECTRIC',
-  HYBRID = 'HYBRID',
-  PLUGIN_HYBRID = 'PLUGIN_HYBRID'
-}
-
 export interface Vehicle {
-  id: UUID;
+  id: string;
   manufacturer: string;
   model: string;
   year: number;
-  type: VehicleType;
+  type: string;
   price: number;
-  fuelType: FuelType;
+  fuelType: string;
   transmission: string;
   mileage?: number;
   features: string[];
@@ -32,12 +13,4 @@ export interface Vehicle {
   description: string;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface VehicleFilters {
-  manufacturer?: string;
-  type?: VehicleType;
-  year?: number;
-  sortBy?: 'price' | 'year';
-  sortOrder?: 'asc' | 'desc';
 } 

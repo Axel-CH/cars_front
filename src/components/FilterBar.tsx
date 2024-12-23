@@ -1,21 +1,24 @@
 'use client';
 
-import { useState } from 'react';
 import type { FilterBarProps } from '@/types/components';
 
-export default function FilterBar({ manufacturers, types }: FilterBarProps) {
-  const [selectedManufacturer, setSelectedManufacturer] = useState('');
-  const [selectedType, setSelectedType] = useState('');
-
+export default function FilterBar({ 
+  manufacturers, 
+  types, 
+  selectedManufacturer, 
+  selectedType,
+  onManufacturerChange,
+  onTypeChange 
+}: FilterBarProps) {
   return (
     <div className="flex gap-4 mb-6">
       <select 
-        value={selectedManufacturer}
-        onChange={(e) => setSelectedManufacturer(e.target.value)}
+        value={selectedManufacturer || ''}
+        onChange={(e) => onManufacturerChange(e.target.value || null)}
         className="border p-2 rounded"
       >
         <option value="">All Manufacturers</option>
-        {manufacturers.map((manufacturer) => (
+        {manufacturers.map((manufacturer: string) => (
           <option key={manufacturer} value={manufacturer}>
             {manufacturer}
           </option>
@@ -23,12 +26,12 @@ export default function FilterBar({ manufacturers, types }: FilterBarProps) {
       </select>
 
       <select
-        value={selectedType}
-        onChange={(e) => setSelectedType(e.target.value)}
+        value={selectedType || ''}
+        onChange={(e) => onTypeChange(e.target.value || null)}
         className="border p-2 rounded"
       >
         <option value="">All Types</option>
-        {types.map((type) => (
+        {types.map((type: string) => (
           <option key={type} value={type}>
             {type}
           </option>
