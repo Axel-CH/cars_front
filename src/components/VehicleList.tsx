@@ -3,6 +3,10 @@
 import type { VehicleListProps } from '@/types/components';
 
 export default function VehicleList({ initialVehicles }: VehicleListProps) {
+  if (!initialVehicles?.length) {
+    return <div>No vehicles found.</div>;
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {initialVehicles.map((vehicle) => (
